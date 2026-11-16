@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crée ton personnage IA · Will Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;--soft:#f5f8f6;--ink:#0f1f16;--muted:#5a6a61;--line:#e3e9e5;
+  --green:#14833f;--green-d:#0f6a32;--deep:#0c2a19;--red:#e0392b;--gold:#f2b632;
+  --font:'Figtree',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --r:14px;--shadow:0 1px 2px rgba(15,31,22,.05),0 8px 24px rgba(15,31,22,.06);
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px}
+h1,h2,h3{line-height:1.2;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:clamp(21px,5.4vw,25px);font-weight:800;margin-bottom:6px}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.lead{color:var(--muted);margin-bottom:18px;font-size:15.5px}
+
+/* barre du haut */
+.bar{position:sticky;top:0;z-index:30;background:var(--deep);color:#fff}
+.bar .in{max-width:560px;margin:0 auto;padding:7px 12px 7px 14px;display:flex;align-items:center;gap:10px}
+.bar .t{flex:1;min-width:0;font-size:12.5px;line-height:1.3}
+.bar .t b{font-weight:700}
+.bar .t .p{display:block;opacity:.85;font-size:12.5px;white-space:nowrap}
+.bar .t>b,.bar .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t s{opacity:.6}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex:none;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(224,57,43,.6)}50%{box-shadow:0 0 0 6px rgba(224,57,43,0)}}
+.bar .pay{flex:none;background:var(--gold);color:var(--deep);font-weight:800;font-size:13.5px;text-decoration:none;padding:8px 16px;border-radius:9px;white-space:nowrap}
+
+/* en-tête */
+.hero{padding:22px 0 8px}
+.brand{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:1.6px;color:var(--green);margin-bottom:12px}
+.brand i{width:6px;height:6px;border-radius:50%;background:var(--green)}
+h1{font-size:clamp(25px,6.8vw,32px);font-weight:800}
+h1 em{font-style:normal;color:var(--green)}
+.sub{color:var(--muted);margin-top:10px;font-size:15.5px}
+.tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tools span{font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:20px;background:var(--soft);border:1px solid var(--line);color:var(--ink)}
+
+/* vidéo */
+.video{margin:18px 0 6px;position:relative;border-radius:var(--r);overflow:hidden;background:#000;aspect-ratio:16/9;box-shadow:0 10px 30px rgba(12,42,25,.18)}
+.video video{position:absolute;inset:0;width:100%;height:100%}
+.vnote{font-size:13px;color:var(--muted);text-align:center;margin-bottom:14px}
+
+/* boutons */
+.cta{display:grid;gap:10px}
+.btn{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;padding:11px 18px;border-radius:12px;
+  font-family:var(--font);font-weight:800;font-size:17px;text-decoration:none;text-align:center;background:var(--green);color:#fff;border:0;
+  box-shadow:0 6px 18px rgba(20,131,63,.28);transition:transform .15s,background .15s}
+.btn small{font-weight:500;font-size:12.5px;opacity:.9;margin-top:1px}
+.btn:hover{background:var(--green-d)}
+.btn:active{transform:scale(.985)}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);animation:shine 4.5s ease-in-out infinite}
+@keyframes shine{0%,70%{left:-60%}100%{left:130%}}
+.btn.alt{background:#fff;color:var(--ink);border:1.5px solid var(--line);box-shadow:none;font-weight:700;font-size:15.5px;min-height:50px;flex-direction:row;gap:8px}
+.btn.alt::after{display:none}
+.btn.alt svg{width:20px;height:20px;flex:none}
+.btn:focus-visible{outline:3px solid #8fd1a6;outline-offset:2px}
+
+section{padding:34px 0 4px}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:none}
+
+/* problème */
+.pains{display:grid;gap:8px}
+.pains li{list-style:none;display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--soft);border-radius:12px;font-size:15.5px}
+.pains li::before{content:"✕";flex:none;width:20px;height:20px;border-radius:50%;background:#fde8e6;color:var(--red);font-size:11px;font-weight:800;display:grid;place-items:center;margin-top:1px}
+
+/* avant / après */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.ba div{padding:14px;border-radius:12px;font-size:14.5px}
+.ba b{display:block;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:4px}
+.ba .av{background:var(--soft);color:var(--muted)}
+.ba .ap{background:#e8f5ed;color:var(--deep)}
+.ba .ap b{color:var(--green)}
+
+/* preuves */
+.shots{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.shot{display:block;aspect-ratio:580/988;border-radius:12px;overflow:hidden;background:#0b141a;box-shadow:var(--shadow);transition:transform .2s}
+.shot:hover{transform:translateY(-2px)}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.hint{font-size:12.5px;color:var(--muted);text-align:center;margin-top:8px}
+
+/* étapes */
+.steps{display:grid;gap:12px;counter-reset:s}
+.steps li{list-style:none;display:flex;gap:14px;align-items:flex-start}
+.steps li::before{counter-increment:s;content:counter(s);flex:none;width:32px;height:32px;border-radius:50%;background:var(--deep);color:#fff;font-weight:800;display:grid;place-items:center;font-size:15px}
+.steps b{display:block}
+.steps span{color:var(--muted);font-size:14.5px}
+
+/* offre */
+.offer{border:1px solid var(--line);border-radius:18px;padding:20px 18px;box-shadow:var(--shadow);background:#fff}
+.offer ul{list-style:none;display:grid;gap:12px;margin-bottom:18px}
+.offer li{display:flex;gap:12px;align-items:flex-start}
+.offer li::before{content:"";flex:none;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+.offer li b{display:block}
+.offer li span{color:var(--muted);font-size:14.5px}
+.price{text-align:center;padding:16px 0 14px;border-top:1px dashed var(--line)}
+.price .old{color:var(--muted);text-decoration:line-through;font-size:17px;font-weight:600}
+.price .amount{font-size:44px;font-weight:800;line-height:1.05;color:var(--deep)}
+.price .amount span{font-size:20px}
+.price .tag{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:700;color:var(--red);background:#fde8e6;padding:4px 10px;border-radius:20px}
+.price p{color:var(--muted);font-size:13px;margin-top:6px}
+.guar{display:flex;gap:12px;align-items:flex-start;margin:4px 0 16px;padding:14px;border-radius:12px;background:#e8f5ed;font-size:14.5px}
+.guar svg{flex:none;width:26px;height:26px;color:var(--green)}
+.after{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
+
+/* pour toi si */
+.fit{display:grid;gap:8px}
+.fit li{list-style:none;padding-left:26px;position:relative;font-size:15.5px}
+.fit li::before{content:"→";position:absolute;left:0;color:var(--green);font-weight:800}
+
+/* questions */
+details{border-bottom:1px solid var(--line);padding:14px 0}
+summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--green);font-weight:800;font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:8px;font-size:15px}
+footer{padding:34px 0 40px;color:var(--muted);font-size:13px;text-align:center}
+
+.expired{max-width:480px;margin:80px auto;padding:24px;text-align:center}
+.expired h2{margin-bottom:8px}
+.expired p{color:var(--muted);margin-bottom:18px}
+@media (prefers-reduced-motion:reduce){.dot,.btn::after{animation:none}.reveal{opacity:1;transform:none;transition:none}}
+
+/* programme */
+.prog{display:grid;gap:10px}
+.free{border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);background:#fff}
+.free .v{position:relative;aspect-ratio:16/9;background:#0c2a19}
+.free .v video{position:absolute;inset:0;width:100%;height:100%}
+.free .v .soon{position:absolute;inset:0;display:grid;place-items:center;color:#cfe3d6;font-size:14px;text-align:center;padding:16px}
+.free .meta,.lock{display:flex;gap:12px;align-items:center;padding:12px 14px}
+.num{font-style:normal;flex:none;width:34px;height:34px;border-radius:10px;background:var(--soft);color:var(--deep);font-weight:800;display:grid;place-items:center;font-size:14px}
+.meta div,.lock div{flex:1;min-width:0}
+.meta b,.lock b{display:block;font-size:15.5px}
+.meta span,.lock span{color:var(--muted);font-size:13.5px}
+.badge{font-style:normal;flex:none;font-size:11.5px;font-weight:800;letter-spacing:.6px;padding:4px 9px;border-radius:20px;background:#e8f5ed;color:var(--green)}
+.lock{border:1px solid var(--line);border-radius:14px;background:var(--soft)}
+.lock .num{background:#fff}
+.lock svg{flex:none;width:20px;height:20px;color:var(--muted)}
+.keep{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--deep);color:#fff;font-size:14.5px}
+.keep b{color:var(--gold)}
+</style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1601889501091366');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1601889501091366&ev=PageView&noscript=1"/></noscript>
+</head>
+<body>
+
+<div class="bar" id="bar">
+  <div class="in">
+    <i class="dot" aria-hidden="true"></i>
+    <div class="t">Page désactivée dans <b>2 heures</b><span class="p">Aujourd'hui <b>5 000 F</b> · demain <s>7 500 F</s></span></div>
+    <a class="pay" href="#" data-pay>Payer</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="brand"><i></i>WILL ACADEMY</div>
+    <h1>Crée ton <em>personnage IA</em> qui parle à ta place et poste chaque jour sans montrer ton visage</h1>
+    <p class="sub">Tout se fait avec ton téléphone. Regarde cette courte présentation (45 secondes).</p>
+  </header>
+
+  <div class="video">
+    <video id="player" src="video1.mp4" poster="poster.jpg" controls controlsList="nodownload" playsinline preload="metadata"></video>
+  </div>
+  <p class="vnote">Présentation · 45 secondes</p>
+
+  <div class="cta">
+    <a class="btn" href="#" data-pay>Je veux la formation<small>Je paie 5 000 F maintenant</small></a>
+    <a class="btn alt" href="#" data-wa><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>J'ai une question, j'écris sur WhatsApp</a>
+  </div>
+
+  <section class="reveal">
+    <div class="kicker">Tu te reconnais ?</div>
+    <h2>Poster tous les jours, c'est dur</h2>
+    <p class="lead">Tu sais que la vidéo fait vendre. Mais…</p>
+    <ul class="pains">
+      <li>Tu as honte ou peur de te filmer.</li>
+      <li>Tu ne sais pas quoi dire devant la caméra.</li>
+      <li>Tes photos de produits ne font réagir personne.</li>
+      <li>Payer un acteur ou un vidéaste coûte trop cher.</li>
+    </ul>
+    <div class="ba">
+      <div class="av"><b>Avant</b>Tu postes des photos que personne ne regarde.</div>
+      <div class="ap"><b>Après</b>Ton personnage présente tes produits en vidéo, chaque jour.</div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="kicker">La preuve</div>
+    <h2>La séance guidée d'hier soir</h2>
+    <p class="lead">Des captures du groupe WhatsApp. Les élèves ont créé leur personnage en direct. Les noms et numéros sont cachés.</p>
+    <div class="shots">
+      <a class="shot" href="seance1.jpg" target="_blank"><img src="seance1.jpg" alt="Personnages IA créés par les élèves" loading="lazy"></a>
+      <a class="shot" href="seance2.jpg" target="_blank"><img src="seance2.jpg" alt="Personnage IA d'un élève dans sa boutique" loading="lazy"></a>
+      <a class="shot" href="seance3.jpg" target="_blank"><img src="seance3.jpg" alt="Les élèves installent les applications" loading="lazy"></a>
+      <a class="shot" href="seance4.jpg" target="_blank"><img src="seance4.jpg" alt="Écriture du script" loading="lazy"></a>
+      <a class="shot" href="seance5.jpg" target="_blank"><img src="seance5.jpg" alt="Réglages de la vidéo" loading="lazy"></a>
+      <a class="shot" href="seance6.jpg" target="_blank"><img src="seance6.jpg" alt="Le prompt du personnage" loading="lazy"></a>
+    </div>
+    <p class="hint">Appuie sur une capture pour l'agrandir.</p>
+  </section>
+
+  <section class="reveal" id="programme">
+    <div class="kicker">Le programme</div>
+    <h2>5 vidéos, étape par étape</h2>
+    <p class="lead">Voici le contenu de la formation. Les 2 premières vidéos sont gratuites : regarde-les, tu verras comment j'enseigne.</p>
+    <div class="prog">
+      <div class="free">
+        <div class="v"><video src="cours1.mp4" poster="thumb_v1.jpg" controls controlsList="nodownload" playsinline preload="none"></video></div>
+        <div class="meta"><i class="num">1</i><div><b>Bienvenue dans la formation</b><span>Ce que tu vas apprendre · 2 min 39</span></div><em class="badge">GRATUIT</em></div>
+      </div>
+      <div class="free" id="v2card">
+        <div class="v"><div class="soon">La vidéo 2 arrive très bientôt ici.</div></div>
+        <div class="meta"><i class="num">2</i><div><b>Écrire ton script</b><span>Ce que ton personnage va dire pour vendre</span></div><em class="badge">GRATUIT</em></div>
+      </div>
+      <div class="lock"><i class="num">3</i><div><b>Créer ton personnage</b><span>Un visage réaliste, le même dans tous les décors</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+      <div class="lock"><i class="num">4</i><div><b>Le faire bouger et parler</b><span>De vraies vidéos à partir de tes photos</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+      <div class="lock"><i class="num">5</i><div><b>Monter comme un pro</b><span>Sous-titres, musique, transitions</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    </div>
+    <div class="keep">Les vidéos sont <b>à toi</b> : tu les gardes et tu les revois quand tu veux, même après la séance guidée.</div>
+  </section>
+
+  <section class="reveal">
+    <div class="kicker">Comment ça se passe</div>
+    <h2>3 étapes, ce soir même</h2>
+    <ol class="steps">
+      <li><div><b>Tu paies 5 000 F</b><span>Par Mobile Money, en quelques secondes.</span></div></li>
+      <li><div><b>Tu m'écris sur WhatsApp</b><span>Je t'ajoute au groupe des élèves.</span></div></li>
+      <li><div><b>À 20 h, on crée ton personnage ensemble</b><span>En direct dans le groupe, heure de Ouagadougou.</span></div></li>
+    </ol>
+  </section>
+
+  <section class="reveal" id="offre">
+    <div class="kicker">Ce que tu reçois</div>
+    <h2>Tout pour lancer ton personnage IA</h2>
+    <div class="offer">
+      <ul>
+        <li><div><b>5 vidéos, étape par étape</b><span>Tu les gardes à vie et tu les revois quand tu veux.</span></div></li>
+        <li><div><b>Le pack de prompts</b><span>Les phrases prêtes à copier-coller, tu n'as rien à inventer.</span></div></li>
+        <li><div><b>La séance guidée à 20 h</b><span>On le fait ensemble, tu n'es pas seul.</span></div></li>
+        <li><div><b>Le groupe WhatsApp des élèves</b><span>Tu poses tes questions et tu vois ce que font les autres.</span></div></li>
+      </ul>
+      <div class="price">
+        <div class="old">7 500 F</div>
+        <div class="amount">5 000<span> F</span></div>
+        <div class="tag">Prix d'aujourd'hui · demain 7 500 F</div>
+        <p>Paiement unique, pas d'abonnement.</p>
+      </div>
+      <div class="guar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+        <div><b>Satisfait ou remboursé.</b> Tu suis les 5 vidéos et tu n'arrives pas à créer ton personnage ? On te rembourse.</div>
+      </div>
+      <div class="cta">
+        <a class="btn" href="#" data-pay>Je veux la formation<small>Je paie 5 000 F maintenant</small></a>
+      </div>
+      <p class="after">Après ton paiement, écris-moi sur WhatsApp : je t'ajoute au groupe pour la séance de 20 h.</p>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="kicker">C'est pour toi si…</div>
+    <ul class="fit">
+      <li>Tu vends sur Facebook, TikTok ou WhatsApp.</li>
+      <li>Tu veux poster des vidéos sans montrer ton visage.</li>
+      <li>Tu as seulement un téléphone.</li>
+      <li>Tu veux une méthode simple, sans te casser la tête.</li>
+    </ul>
+  </section>
+
+  <section class="reveal">
+    <div class="kicker">Questions</div>
+    <h2>Questions fréquentes</h2>
+    <details><summary>Je n'ai jamais fait de vidéo. Je peux y arriver ?</summary><p>Oui. Les vidéos montrent chaque étape, avec ton téléphone seulement. Et on le fait ensemble à 20 h.</p></details>
+    <details><summary>Je dois montrer mon visage ?</summary><p>Non. C'est ton personnage IA qui parle à ta place.</p></details>
+    <details><summary>Comment je paie ?</summary><p>Tu appuies sur « Payer 5 000 F ». Si tu as un souci, écris-moi sur WhatsApp et je t'aide.</p></details>
+    <details><summary>Je ne suis pas au Burkina. Je peux participer ?</summary><p>Oui. Tu paies en ligne et tu rejoins le groupe WhatsApp. La séance est à 20 h, heure de Ouagadougou.</p></details>
+    <details><summary>Et si je n'y arrive pas ?</summary><p>Si tu as suivi les 5 vidéos et que tu n'y arrives pas, on te rembourse.</p></details>
+  </section>
+
+  <section class="reveal">
+    <div class="cta">
+      <a class="btn" href="#" data-pay>Je crée mon personnage IA<small>5 000 F aujourd'hui · demain 7 500 F</small></a>
+      <a class="btn alt" href="#" data-wa>J'ai une question, j'écris sur WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>Will Academy · Ouagadougou, Burkina Faso</footer>
+</div>
+
+<script>
+var PAY_LINK = "https://will-academy-2.mymaketou.shop/products/lia-qui-paie/checkout";
+var WA_NUMBER = "22672019524";
+var WA_TEXT = "Bonjour, je veux créer mon personnage IA (formation à 5 000 F)";
+
+/* Page désactivée 2 h après la première visite */
+(function(){
+  var K='wa_page_debut',now=Date.now(),start=now;
+  try{var v=localStorage.getItem(K);if(v)start=+v;else localStorage.setItem(K,String(now));}catch(e){}
+  if(now-start>2*3600*1000){
+    var wa="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent("Bonjour, la page de la formation personnage IA s'est désactivée. Est-ce que je peux encore m'inscrire ?");
+    document.body.innerHTML='<div class="expired"><h2>Cette page est désactivée</h2><p>Le délai de 2 heures est passé.</p><a class="btn" href="'+wa+'" target="_blank" rel="noopener">Écris-moi sur WhatsApp</a></div>';
+  }
+})();
+
+document.querySelectorAll('[data-pay]').forEach(function(a){a.href=PAY_LINK;a.target="_blank";a.rel="noopener";});
+document.querySelectorAll('[data-wa]').forEach(function(a){
+  a.href="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(WA_TEXT);a.target="_blank";a.rel="noopener";
+});
+
+/* Pixel : événements */
+function px(n,o){try{if(window.fbq)fbq('track',n,o||{});}catch(e){}}
+document.querySelectorAll('[data-pay]').forEach(function(a){a.addEventListener('click',function(){px('InitiateCheckout',{value:5000,currency:'XOF',content_name:'Personnage IA'});});});
+document.querySelectorAll('[data-wa]').forEach(function(a){a.addEventListener('click',function(){px('Contact');});});
+var vu=false;document.querySelectorAll('video').forEach(function(v){v.addEventListener('play',function(){if(!vu){vu=true;px('ViewContent',{content_name:'Personnage IA'});}});});
+/* apparition douce au défilement */
+var els=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.12});
+  els.forEach(function(el){io.observe(el)});
+}else els.forEach(function(el){el.classList.add('on')});
+</script>
+</body>
+</html>
