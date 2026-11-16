@@ -364,6 +364,16 @@ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
 function observeReveals(){document.querySelectorAll('.reveal:not(.on)').forEach(function(el){if(el.offsetParent===null)return;if(io)io.observe(el);else el.classList.add('on');});}
 observeReveals();
 
+
+/* Mesures : vidéo de présentation et temps passé sur la page */
+(function(){
+  var v=document.getElementById('player'),done={};
+  if(v)v.addEventListener('timeupdate',function(){
+    if(!v.duration)return;var r=v.currentTime/v.duration*100;
+    [25,50,75,92].forEach(function(m){if(r>=m&&!done[m]){done[m]=1;try{if(window.fbq)fbq('trackCustom','Presentation_'+m)}catch(e){}}});
+  });
+  [15,30,60,120,300].forEach(function(t){setTimeout(function(){if(document.visibilityState!=='hidden'){try{if(window.fbq)fbq('trackCustom','Temps_'+t+'s')}catch(e){}}},t*1000);});
+})();
 /* Verrou : la suite apparaît à 92 % de la présentation */
 (function(){
   var locked=document.getElementById('locked'),gate=document.getElementById('gate'),fill=document.getElementById('gfill'),v=document.getElementById('player'),maxT=0;
