@@ -150,6 +150,16 @@ footer{padding:34px 0 40px;color:var(--muted);font-size:13px;text-align:center}
 .lock svg{flex:none;width:20px;height:20px;color:var(--muted)}
 .keep{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--deep);color:#fff;font-size:14.5px}
 .keep b{color:var(--gold)}
+
+/* parcours */
+.path{list-style:none;position:relative;display:grid;gap:4px}
+.path::before{content:"";position:absolute;left:16px;top:26px;bottom:40px;width:2px;background:linear-gradient(var(--green),#cfe6d7)}
+.path li{position:relative;display:flex;gap:14px;align-items:flex-start;padding:10px 10px 10px 0}
+.path i{font-style:normal;flex:none;position:relative;z-index:1;width:34px;height:34px;border-radius:50%;background:#fff;border:2px solid var(--green);color:var(--green);font-weight:800;display:grid;place-items:center;font-size:14px}
+.path b{display:block;font-size:15.5px}
+.path span{color:var(--muted);font-size:14px}
+.path li.hl{background:#e8f5ed;border-radius:12px}
+.path li.hl i{background:var(--green);color:#fff}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -218,10 +228,24 @@ fbq('track','PageView');
     <p class="hint">Appuie sur une capture pour l'agrandir.</p>
   </section>
 
+  <section class="reveal" id="parcours">
+    <div class="kicker">Comment ça se passe</div>
+    <h2>Ton parcours, étape par étape</h2>
+    <p class="lead">Simple et clair, du paiement jusqu'à ton personnage.</p>
+    <ol class="path">
+      <li><i>1</i><div><b>Tu paies 5 000 F</b><span>Par Mobile Money, en quelques secondes.</span></div></li>
+      <li><i>2</i><div><b>Tu m'écris sur WhatsApp</b><span>Je t'ajoute au groupe des élèves.</span></div></li>
+      <li class="hl"><i>3</i><div><b>La séance guidée, le soir à 20 h</b><span>En direct dans le groupe. On crée ton personnage ensemble, pas à pas.</span></div></li>
+      <li><i>4</i><div><b>Tu reçois les 5 vidéos de la formation</b><span>Pour revoir chaque étape quand tu veux. Elles sont à toi, à vie.</span></div></li>
+      <li><i>5</i><div><b>Tu reçois les supports</b><span>Le pack de prompts prêts à copier-coller.</span></div></li>
+      <li><i>6</i><div><b>Tu restes dans la communauté</b><span>Le groupe WhatsApp des élèves : questions, entraide, partage de vos créations.</span></div></li>
+    </ol>
+  </section>
+
   <section class="reveal" id="programme">
     <div class="kicker">Le programme</div>
     <h2>5 vidéos, étape par étape</h2>
-    <p class="lead">Voici le contenu de la formation. Les 2 premières vidéos sont gratuites : regarde-les, tu verras comment j'enseigne.</p>
+    <p class="lead">Après la séance guidée, on t'envoie les 5 vidéos. Tu les suis étape par étape, quand tu veux, à n'importe quel moment, et c'est à vie. Les 2 premières sont gratuites ici : regarde-les.</p>
     <div class="prog">
       <div class="free">
         <div class="v"><video src="cours1.mp4" poster="thumb_v1.jpg" controls controlsList="nodownload" playsinline preload="none"></video></div>
@@ -235,17 +259,6 @@ fbq('track','PageView');
       <div class="lock"><i class="num">4</i><div><b>Le faire bouger et parler</b><span>De vraies vidéos à partir de tes photos</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
       <div class="lock"><i class="num">5</i><div><b>Monter comme un pro</b><span>Sous-titres, musique, transitions</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
     </div>
-    <div class="keep">Les vidéos sont <b>à toi</b> : tu les gardes et tu les revois quand tu veux, même après la séance guidée.</div>
-  </section>
-
-  <section class="reveal">
-    <div class="kicker">Comment ça se passe</div>
-    <h2>3 étapes, ce soir même</h2>
-    <ol class="steps">
-      <li><div><b>Tu paies 5 000 F</b><span>Par Mobile Money, en quelques secondes.</span></div></li>
-      <li><div><b>Tu m'écris sur WhatsApp</b><span>Je t'ajoute au groupe des élèves.</span></div></li>
-      <li><div><b>À 20 h, on crée ton personnage ensemble</b><span>En direct dans le groupe, heure de Ouagadougou.</span></div></li>
-    </ol>
   </section>
 
   <section class="reveal" id="offre">
@@ -253,10 +266,10 @@ fbq('track','PageView');
     <h2>Tout pour lancer ton personnage IA</h2>
     <div class="offer">
       <ul>
-        <li><div><b>5 vidéos, étape par étape</b><span>Tu les gardes à vie et tu les revois quand tu veux.</span></div></li>
+        <li><div><b>La séance guidée à 20 h</b><span>On crée ton personnage ensemble, en direct.</span></div></li>
+        <li><div><b>Les 5 vidéos de la formation, à vie</b><span>Tu les revois quand tu veux, étape par étape.</span></div></li>
         <li><div><b>Le pack de prompts</b><span>Les phrases prêtes à copier-coller, tu n'as rien à inventer.</span></div></li>
-        <li><div><b>La séance guidée à 20 h</b><span>On le fait ensemble, tu n'es pas seul.</span></div></li>
-        <li><div><b>Le groupe WhatsApp des élèves</b><span>Tu poses tes questions et tu vois ce que font les autres.</span></div></li>
+        <li><div><b>La communauté WhatsApp des élèves</b><span>Questions, entraide et partage de vos créations.</span></div></li>
       </ul>
       <div class="price">
         <div class="old">7 500 F</div>
