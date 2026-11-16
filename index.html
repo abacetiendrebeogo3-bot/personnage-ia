@@ -171,6 +171,18 @@ h3{font-size:19px;font-weight:800}
 .stage-link{width:2px;height:34px;margin:4px auto;background:repeating-linear-gradient(var(--green) 0 6px,transparent 6px 11px);background-size:2px 22px;animation:flow 1.2s linear infinite}
 @keyframes flow{from{background-position:0 0}to{background-position:0 22px}}
 @media (prefers-reduced-motion:reduce){.stage-link{animation:none}}
+
+/* verrou vidéo */
+.gate{margin:16px 0 6px;padding:12px 14px;border-radius:12px;background:var(--soft);text-align:center}
+.gate p{font-size:13.5px;color:var(--muted);margin-top:8px}
+.gbar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.gbar i{display:block;height:100%;width:0;background:var(--green);transition:width .4s}
+.gate.done{animation:gout .5s ease forwards}
+@keyframes gout{to{opacity:0;height:0;margin:0;padding:0}}
+#locked.open>section{animation:secin .8s ease both}
+#locked.open>section:nth-of-type(1){animation-delay:.05s}
+#locked.open>section:nth-of-type(2){animation-delay:.35s}
+@keyframes secin{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -208,6 +220,12 @@ fbq('track','PageView');
     <a class="btn alt" href="#" data-wa><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>J'ai une question, j'écris sur WhatsApp</a>
   </div>
 
+  <div class="gate" id="gate">
+    <div class="gbar"><i id="gfill"></i></div>
+    <p>▶ Regarde la présentation jusqu'au bout pour découvrir ton parcours.</p>
+  </div>
+
+  <div id="locked" hidden>
   <section class="reveal">
     <div class="kicker">Tu te reconnais ?</div>
     <h2>Poster tous les jours, c'est dur</h2>
@@ -332,6 +350,8 @@ fbq('track','PageView');
     </div>
   </section>
 
+  </div><!-- fin zone verrouillée -->
+
   <footer>Will Academy · Ouagadougou, Burkina Faso</footer>
 </div>
 
@@ -361,11 +381,32 @@ document.querySelectorAll('[data-pay]').forEach(function(a){a.addEventListener('
 document.querySelectorAll('[data-wa]').forEach(function(a){a.addEventListener('click',function(){px('Contact');});});
 var vu=false;document.querySelectorAll('video').forEach(function(v){v.addEventListener('play',function(){if(!vu){vu=true;px('ViewContent',{content_name:'Personnage IA'});}});});
 /* apparition douce au défilement */
-var els=document.querySelectorAll('.reveal');
-if('IntersectionObserver' in window){
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.12});
-  els.forEach(function(el){io.observe(el)});
-}else els.forEach(function(el){el.classList.add('on')});
+var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.12}):null;
+function observeReveals(){document.querySelectorAll('.reveal:not(.on)').forEach(function(el){if(el.offsetParent===null)return;if(io)io.observe(el);else el.classList.add('on');});}
+observeReveals();
+
+/* Verrou : la suite apparaît à 92 % de la présentation */
+(function(){
+  var locked=document.getElementById('locked'),gate=document.getElementById('gate'),fill=document.getElementById('gfill'),v=document.getElementById('player'),maxT=0;
+  function unlock(scroll,remember){
+    if(!locked.hidden)return;
+    locked.hidden=false;locked.classList.add('open');
+    gate.classList.add('done');setTimeout(function(){gate.style.display='none'},500);
+    if(remember){try{localStorage.setItem('pia_vu','1')}catch(e){}}
+    observeReveals();
+    if(scroll)setTimeout(function(){locked.scrollIntoView({behavior:'smooth',block:'start'})},600);
+    px('ViewContent',{content_name:'Presentation vue'});
+  }
+  try{if(localStorage.getItem('pia_vu')==='1'){unlock(false,false);return;}}catch(e){}
+  if(!v){unlock(false,false);return;}
+  v.addEventListener('timeupdate',function(){
+    if(!v.seeking&&v.currentTime>maxT)maxT=v.currentTime;
+    if(v.duration){var r=maxT/v.duration;fill.style.width=Math.min(100,r/0.92*100)+'%';if(r>=0.92)unlock(true,true);}
+  });
+  v.addEventListener('seeking',function(){if(v.currentTime>maxT+1)v.currentTime=maxT;});
+  v.addEventListener('ended',function(){unlock(true,true)});
+  v.addEventListener('error',function(){unlock(false,false)});
+})();
 </script>
 </body>
 </html>
