@@ -6,7 +6,8 @@
 <title>Crée ton personnage IA · Will Academy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="poster.webp">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
 :root{
   --bg:#ffffff;--soft:#f5f8f6;--ink:#0f1f16;--muted:#5a6a61;--line:#e3e9e5;
@@ -215,7 +216,7 @@ fbq('track','PageView');
   </header>
 
   <div class="video">
-    <video id="player" src="video1.mp4" poster="poster.jpg" controls controlsList="nodownload" playsinline preload="metadata"></video>
+    <video id="player" src="video1.mp4" poster="poster.webp" controls controlsList="nodownload" playsinline preload="none"></video>
   </div>
   <p class="vnote">Présentation · 45 secondes</p>
 
@@ -239,12 +240,12 @@ fbq('track','PageView');
       <div class="stage-h"><span class="sn">1</span><div><div class="st">Étape 1</div><h3>Une séance guidée à 20 h sur WhatsApp</h3></div></div>
       <p class="sd">Tu crées ton propre personnage, étape par étape, et on le fait ensemble. <b>Tu ne seras pas laissé tout seul.</b> Voici des captures de la séance d'hier (noms et numéros cachés) :</p>
       <div class="shots">
-      <a class="shot" href="seance1.jpg" target="_blank"><img src="seance1.jpg" alt="Personnages IA créés par les élèves" loading="lazy"></a>
-      <a class="shot" href="seance2.jpg" target="_blank"><img src="seance2.jpg" alt="Personnage IA d'un élève dans sa boutique" loading="lazy"></a>
-      <a class="shot" href="seance3.jpg" target="_blank"><img src="seance3.jpg" alt="Les élèves installent les applications" loading="lazy"></a>
-      <a class="shot" href="seance4.jpg" target="_blank"><img src="seance4.jpg" alt="Écriture du script" loading="lazy"></a>
-      <a class="shot" href="seance5.jpg" target="_blank"><img src="seance5.jpg" alt="Réglages de la vidéo" loading="lazy"></a>
-      <a class="shot" href="seance6.jpg" target="_blank"><img src="seance6.jpg" alt="Le prompt du personnage" loading="lazy"></a>
+      <a class="shot" href="seance1.webp" target="_blank"><img src="seance1.webp" alt="Personnages IA créés par les élèves" loading="lazy"></a>
+      <a class="shot" href="seance2.webp" target="_blank"><img src="seance2.webp" alt="Personnage IA d'un élève dans sa boutique" loading="lazy"></a>
+      <a class="shot" href="seance3.webp" target="_blank"><img src="seance3.webp" alt="Les élèves installent les applications" loading="lazy"></a>
+      <a class="shot" href="seance4.webp" target="_blank"><img src="seance4.webp" alt="Écriture du script" loading="lazy"></a>
+      <a class="shot" href="seance5.webp" target="_blank"><img src="seance5.webp" alt="Réglages de la vidéo" loading="lazy"></a>
+      <a class="shot" href="seance6.webp" target="_blank"><img src="seance6.webp" alt="Le prompt du personnage" loading="lazy"></a>
     </div>
       <p class="hint">Appuie sur une capture pour l'agrandir.</p>
       <div class="mini-cta"><a class="btn" href="#" data-pay>Je réserve ma place · 5 000 F</a></div>
@@ -257,12 +258,12 @@ fbq('track','PageView');
       <p class="sd">Après la séance, tu reçois les vidéos. Tu les suis étape par étape, quand tu veux, à n'importe quel moment, et c'est à vie. Deux vidéos sont gratuites ici : regarde-les.</p>
       <div class="prog">
         <div class="free">
-          <div class="v"><video src="cours1.mp4" poster="thumb_v1.jpg" controls controlsList="nodownload" playsinline preload="none"></video></div>
+          <div class="v"><video src="cours1.mp4" poster="thumb_v1.webp" controls controlsList="nodownload" playsinline preload="none"></video></div>
           <div class="meta"><i class="num">1</i><div><b>Bienvenue dans la formation</b><span>Ce que tu vas apprendre · 2 min 39</span></div><em class="badge">GRATUIT</em></div>
         </div>
         <div class="lock"><i class="num">2</i><div><b>Créer ton personnage</b><span>Un visage réaliste, le même dans tous les décors</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
         <div class="free">
-          <div class="v"><video src="cours2.mp4" poster="thumb_v2.jpg" controls controlsList="nodownload" playsinline preload="none"></video></div>
+          <div class="v"><video src="cours2.mp4" poster="thumb_v2.webp" controls controlsList="nodownload" playsinline preload="none"></video></div>
           <div class="meta"><i class="num">3</i><div><b>Écrire ton script</b><span>Ce que ton personnage va dire pour vendre · 4 min 58</span></div><em class="badge">GRATUIT</em></div>
         </div>
         <div class="lock"><i class="num">4</i><div><b>Le faire bouger et parler</b><span>De vraies vidéos à partir de tes photos</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
