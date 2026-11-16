@@ -339,15 +339,8 @@ var PAY_LINK = "https://will-academy-2.mymaketou.shop/products/lia-qui-paie/chec
 var WA_NUMBER = "22672019524";
 var WA_TEXT = "Bonjour, je veux créer mon personnage IA (formation à 5 000 F)";
 
-/* Page désactivée 2 h après la première visite */
-(function(){
-  var K='wa_page_debut',now=Date.now(),start=now;
-  try{var v=localStorage.getItem(K);if(v)start=+v;else localStorage.setItem(K,String(now));}catch(e){}
-  if(now-start>2*3600*1000){
-    var wa="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent("Bonjour, la page de la formation personnage IA s'est désactivée. Est-ce que je peux encore m'inscrire ?");
-    document.body.innerHTML='<div class="expired"><h2>Cette page est désactivée</h2><p>Le délai de 2 heures est passé.</p><a class="btn" href="'+wa+'" target="_blank" rel="noopener">Écris-moi sur WhatsApp</a></div>';
-  }
-})();
+/* Plus de désactivation : la page reste ouverte pour tout le monde */
+try{localStorage.removeItem('wa_page_debut')}catch(e){}
 
 document.querySelectorAll('[data-pay]').forEach(function(a){a.href=PAY_LINK;a.target="_blank";a.rel="noopener";});
 document.querySelectorAll('[data-wa]').forEach(function(a){
